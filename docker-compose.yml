@@ -10,3 +10,11 @@ services:
      - ENV=development
      - WEB_HOST=0.0.0.0
      - WEB_PORT=9123
+     - DB=mongodb://mongodb:27017/tieredapp
+  mongodb:
+    image: mongo:latest
+    ports:
+     - 27017:27017
+    volumes:
+      - ./data/db:/usr/data/db
+    command: mongod --smallfiles --logpath=/dev/null
