@@ -13,6 +13,8 @@ app.config['MONGO_URI'] = os.environ.get('DB')
 CORS(app)
 
 mongo = PyMongo(app)
+database = mongo.db
+todos = database.todo
 
 LOG.info(mongo.db.command('ismaster'))
 LOG.info('Application successfully created ...')

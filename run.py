@@ -1,12 +1,9 @@
 from app import app, LOG
 import os
 
-HOST = os.environ.get('WEB_HOST')
-PORT = os.environ.get('WEB_PORT')
+HOST = os.environ.get('WEB_HOST', '0.0.0.0')
+PORT = os.environ.get('WEB_PORT', 7777)
 
 if __name__ == '__main__':
-    if HOST == None and PORT == None:
-        HOST = '0.0.0.0'
-        PORT = 7777
     LOG.info('Application running on %s:%s' % (HOST, PORT))
     app.run(host=HOST, port=PORT)

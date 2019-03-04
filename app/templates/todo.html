@@ -3,9 +3,14 @@
 {% block body %}
 <div class="container-fluid text-center">
   <div class="row">
-    <h1>Tiered Software</h1>
+    <h1>Todo</h1>
     <br>
     <br>
+    <ol>
+      {% for i in range(0, len) %}
+        <li>{{ todo[i] }}</li>
+      {% endfor %}
+    </ol>
   </div>
 </div>
 {% endblock %}

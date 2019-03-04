@@ -1,4 +1,4 @@
-from app import app, LOG
+from app import app, LOG, todos
 from flask import render_template
 
 @app.route('/')
