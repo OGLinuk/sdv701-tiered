@@ -1,10 +1,15 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_pymongo import PyMongo
-from lumbrjak import logger
+from utils.logger import Logger
 import os
 
-LOG = logger.get_logger(__name__, filename='output.log')
+lumbrjak = Logger(__name__, 'logs.log')
+LOG = lumbrjak.get_logger()
+
+test_lumbrjak = Logger('test', 'test.log')
+
+LOG.info('%s:%s' % (lumbrjak, test_lumbrjak))
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config')
