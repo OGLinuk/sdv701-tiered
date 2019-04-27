@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 from utils.logger import Logger
 import os
 
-lumbrjak = Logger(__name__, 'logs.log')
+lumbrjak = Logger(__name__, filename='app.log')
 LOG = lumbrjak.get_logger()
 
 test_lumbrjak = Logger('test', 'test.log')

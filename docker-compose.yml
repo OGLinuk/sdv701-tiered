@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   web:
-    build: .
+    build: ./frontend
     ports:
      - 9123:9123
     volumes:
@@ -11,6 +11,16 @@ services:
      - WEB_HOST=0.0.0.0
      - WEB_PORT=9123
      - DB=mongodb://mongodb:27017/tieredapp
+  api:
+    build: ./backend
+    ports:
+     - 9124:9124
+    volumes:
+     - .:/usr/src/application
+    environment:
+     - ENV=development
+     - API_HOST=0.0.0.0
+     - API_PORT=9124
   mongodb:
     image: mongo:latest
     ports:
