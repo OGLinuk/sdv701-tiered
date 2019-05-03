@@ -20,13 +20,13 @@ app.config['MONGO_URI'] = os.environ.get('DB')
 
 mongo = PyMongo(app)
 database = mongo.db
-todos = database.todo
+books = database.books
 
 LOG.info(mongo.db.command('ismaster'))
 LOG.info('API created siccessfully ...')
 
 from api.resources import *
 
-api.add_resource(todo.TodoList, '/todo')
-api.add_resource(todo.Todo, '/todo/<string:todo>')
+api.add_resource(book.BookList, '/books')
+api.add_resource(book.Book, '/books/<string:book_name>')
 api.add_resource(test.Test, '/<string:test>')
