@@ -1,34 +1,32 @@
-from app import app, LOG, todos
+from app import app, LOG
 from flask import render_template, request, redirect
+import json
+import requests
 
-@app.route('/todo', methods=['GET', 'POST'])
-def serve_todo():
-    LOG.info('serve_todo')
+@app.route('/todos', methods=['GET', 'POST'])
+def serve_todos():
+    LOG.info('serve_todos')
     
-    todo = [v for v in todos.find()]
+    todo_list = requests.get('http://tiered-backend:9124/todo').json()
     
-    if len(todo) < 1:
-        return render_template('/todo.html', len=0, todo=None)
+    if not todo_list:
+        return render_template('/todo.html', todo='No todo list found')
     
-    return render_template('/todo.html', len=len(todo), todo=todo)
+    return render_template('/todo.html', todo=json.loads(todo_list['task']))
 
 @app.route('/upload', methods=['GET', 'POST'])
 def serve_upload_todo():
     if request.method == 'POST':
         LOG.info('serve_todo(POST)')
 
-        todo = {
-            "name": request.values.get('todo_name'),
-            "desc": request.values.get('todo_desc')
-        }
+        name = request.values.get('todo_name')
+        desc = request.values.get('todo_desc')
 
-        check = todos.find_one(todo)
-        if check != None:
-            return redirect('/todo')
+        r = requests.put('http://tiered-backend:9124/todo/%s' % (name), data={"todo_desc": desc})
+        
+        LOG.info("Req.put response: %s" % (r.status_code))
 
-        todos.insert(todo)
-
-        return redirect('/todo')
+        return redirect('/todos')
 
     if request.method == 'GET':
         LOG.info('serve_upload_todo(GET)')

@@ -1,30 +1,48 @@
-version: '3.2'
+version: '3.7'
 services:
   web:
+    hostname: frontend
+    container_name: tiered-frontend
     build: ./frontend
+    depends_on:
+      - api
     ports:
-     - 9123:9123
+      - 9123:9123
     volumes:
-     - .:/usr/src/application
+      - .:/usr/src/application
     environment:
-     - ENV=development
-     - WEB_HOST=0.0.0.0
-     - WEB_PORT=9123
-     - DB=mongodb://mongodb:27017/tieredapp
+      - ENV=development
+      - WEB_HOST=0.0.0.0
+      - WEB_PORT=9123
+    networks:
+      - tiered
   api:
+    hostname: backend
+    container_name: tiered-backend
     build: ./backend
+    depends_on:
+      - mongodb
     ports:
-     - 9124:9124
+      - 9124:9124
     volumes:
-     - .:/usr/src/application
+      - .:/usr/src/application
     environment:
-     - ENV=development
-     - API_HOST=0.0.0.0
-     - API_PORT=9124
+      - ENV=development
+      - API_HOST=0.0.0.0
+      - API_PORT=9124
+      - DB=mongodb://mongodb:27017/tieredapp
+    networks:
+      - tiered
   mongodb:
+    hostname: database
+    container_name: tiered-database
     image: mongo:latest
     ports:
-     - 27017:27017
+      - 27017:27017
     volumes:
       - ./data/db:/usr/data/db
     command: mongod --smallfiles --logpath=/dev/null
+    networks:
+      - tiered
+networks:
+  tiered:

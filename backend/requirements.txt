@@ -1,2 +1,4 @@
 flask
+flask_cors
+flask_pymongo
 flask_restful
