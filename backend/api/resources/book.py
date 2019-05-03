@@ -18,15 +18,15 @@ class Book(Resource):
             return {'response': 'error'}, 400
         
         book = {
-            "name": book_name,
-            "description": args['book_description'],
-            "price": args['book_price'],
-            "condition": args['book_condition'],
-            "in-stock": True,
-            "last modified": str(datetime.now())
+            'name': book_name,
+            'description': args['book_description'],
+            'price': args['book_price'],
+            'condition': args['book_condition'],
+            'in_stock': True,
+            'last_modified': str(datetime.now())
         }
 
-        check = books.find_one(book)
+        check = books.find_one({'name': book_name})
         if check != None:
             return {'response': 'found existing', 
                     'book': json.dumps(check, default=json_util.default)}, 200

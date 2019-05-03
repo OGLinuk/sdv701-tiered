@@ -15,6 +15,8 @@ def serve_inventory():
 
     book_list = requests.get('http://tiered-backend:9124/books').json()
 
+    LOG.info(book_list['books'])
+
     if book_list['response'] == 'error':
         return render_template('/inventory.html', books='No inventory list found')
     
