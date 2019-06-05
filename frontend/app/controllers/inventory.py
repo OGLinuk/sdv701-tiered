@@ -9,6 +9,8 @@ def serve_new_books():
 
     book_list = requests.get('http://tiered-sdv701-backend:9124/books/new').json()
 
+    LOG.info(book_list)
+
     if book_list['response'] == 'error':
         return render_template('/inventory.html', error='No inventory list found')
 

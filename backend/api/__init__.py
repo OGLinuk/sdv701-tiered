@@ -69,6 +69,6 @@ LOG.info(mongo.db.command('ismaster'))
 from api.resources import *
 api.add_resource(book.BookList, '/books/<string:book_type>')
 api.add_resource(book.Book, '/book/<string:book_name>')
-api.add_resource(test.Test, '/<string:test>')
+api.add_resource(test.Test, '/')
 
 LOG.info('API created siccessfully ...')

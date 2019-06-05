@@ -1,4 +1,4 @@
-{% extends 'new_books.html' %} 
+{% extends 'skeleton.html' %} 
 {% block title %}Used Books{% endblock %}
 {% block body %}
 <h1>Used Books</h1>
@@ -19,7 +19,7 @@
         <br>
         Last Modified: {{ book['last_modified'] }}
         <br>
-        Book Condition: {{ book['condition'] }}
+        <b>Book Condition:</b> {{ book['condition'] }}
     </li>
     <br>
     <br>
