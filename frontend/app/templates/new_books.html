@@ -1,0 +1,27 @@
+{% extends 'skeleton.html' %} 
+{% block title %}New Books{% endblock %}
+{% block body %}
+<h1>New Books</h1>
+<br>
+<br>
+<ol>
+    {% for book in books %}
+    <li>
+        Book ID: {{ book['_id']['$oid'] }}
+        <br>
+        Book Name: {{ book['name'] }}
+        <br>
+        Book Description: {{ book['description'] }}
+        <br>
+        Book Price: {{ book['price'] }}
+        <br>
+        In Stock: {{ book['in_stock'] }}
+        <br>
+        Last Modified: {{ book['last_modified'] }}
+        <br>
+    </li>
+    <br>
+    <br>
+    {% endfor %}
+</ol>
+{% endblock %}

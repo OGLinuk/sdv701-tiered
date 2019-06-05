@@ -22,6 +22,7 @@ class Book(Resource):
     
         if args['condition']:
             book = books.UsedBook({
+                'type': 'used',
                 'name': book_name,
                 'description': args['description'],
                 'price': args['price'],
@@ -31,6 +32,7 @@ class Book(Resource):
             })
         else:
             book = books.NewBook({
+                'type': 'new',
                 'name': book_name,
                 'description': args['description'],
                 'price': args['price'],
@@ -48,8 +50,8 @@ class Book(Resource):
         return {'response': 'success', 'book': json.dumps(book, default=json_util.default)}, 201
 
 class BookList(Resource):
-    def get(self):
-        book_list = [v for v in books_collection.find({})]
+    def get(self, book_type):
+        book_list = [v for v in books_collection.find({'type': book_type})]
         
         if not book_list:
             return {'response': 'error'}, 400

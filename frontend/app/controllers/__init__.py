@@ -1,1 +1,1 @@
-from . import index, admin, customer
+from . import index, admin, customer, inventory

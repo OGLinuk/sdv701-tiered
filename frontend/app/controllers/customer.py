@@ -4,5 +4,5 @@ import requests
 
 @app.route('/customer', methods=['GET'])
 def serve_customer():
-    LOG.info('serve customer')
+    LOG.info('serve_customer(GET)')
     return render_template('/customer.html')

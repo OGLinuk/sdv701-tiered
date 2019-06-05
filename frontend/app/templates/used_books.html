@@ -1,0 +1,28 @@
+{% extends 'new_books.html' %} 
+{% block title %}Used Books{% endblock %}
+{% block body %}
+<h1>Used Books</h1>
+<br>
+<br>
+<ol>
+    {% for book in books %}
+    <li>
+        Book ID: {{ book['_id']['$oid'] }}
+        <br>
+        Book Name: {{ book['name'] }}
+        <br>
+        Book Description: {{ book['description'] }}
+        <br>
+        Book Price: {{ book['price'] }}
+        <br>
+        In Stock: {{ book['in_stock'] }}
+        <br>
+        Last Modified: {{ book['last_modified'] }}
+        <br>
+        Book Condition: {{ book['condition'] }}
+    </li>
+    <br>
+    <br>
+    {% endfor %}
+</ol>
+{% endblock %}

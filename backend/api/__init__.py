@@ -29,6 +29,7 @@ books_collection = database.books
 
 # Dummy data
 book_1 = books.UsedBook({
+    'type': 'used',
     'name': "The Plague Year",
     'description': "A journal of the black plague",
     'price': 10,
@@ -38,6 +39,7 @@ book_1 = books.UsedBook({
 })
 
 book_2 = books.UsedBook({
+    'type': 'used',
     'name': 'Robinson Crusoe',
     'description': 'A book about a castaway',
     'price': 50,
@@ -47,6 +49,7 @@ book_2 = books.UsedBook({
 })
 
 book_3 = books.NewBook({
+    'type': 'new',
     'name': 'Henry V',
     'description': 'A play written by shakespear',
     'price': 30,
@@ -64,8 +67,8 @@ LOG.info(mongo.db.command('ismaster'))
 
 # Route definitions
 from api.resources import *
-api.add_resource(book.BookList, '/books')
-api.add_resource(book.Book, '/books/<string:book_name>')
+api.add_resource(book.BookList, '/books/<string:book_type>')
+api.add_resource(book.Book, '/book/<string:book_name>')
 api.add_resource(test.Test, '/<string:test>')
 
 LOG.info('API created siccessfully ...')
