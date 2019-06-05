@@ -2,7 +2,7 @@ version: '3.7'
 services:
   web:
     hostname: frontend
-    container_name: tiered-frontend
+    container_name: tiered-sdv701-frontend
     build: ./frontend
     depends_on:
       - api
@@ -18,7 +18,7 @@ services:
       - tiered
   api:
     hostname: backend
-    container_name: tiered-backend
+    container_name: tiered-sdv701-backend
     build: ./backend
     depends_on:
       - mongodb
@@ -35,7 +35,7 @@ services:
       - tiered
   mongodb:
     hostname: database
-    container_name: tiered-database
+    container_name: tiered-sdv701-database
     image: mongo:latest
     ports:
       - 27017:27017

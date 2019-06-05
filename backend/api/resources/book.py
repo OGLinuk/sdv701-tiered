@@ -1,4 +1,5 @@
-from api import books, LOG
+from api import books_collection, LOG
+from api.models import books
 from bson import json_util
 from datetime import datetime
 from flask import request
@@ -8,36 +9,47 @@ import json
 class Book(Resource):
     def put(self, book_name):
         parser = reqparse.RequestParser()
-        parser.add_argument('book_description', type=str, required=True, help='Description of book')
-        parser.add_argument('book_price', type=int, required=True, help='Price of book')
-        parser.add_argument('book_condition', type=str, required=True, help='Condition of book')
-
+        
+        parser.add_argument('description', type=str, required=True, help='Description of book')
+        parser.add_argument('price', type=int, required=True, help='Price of book')
+        parser.add_argument('in_stock', type=int, required=True, help='Quantity of stock')
+        parser.add_argument('condition', type=int, help='Condition of book')
+        
         args = parser.parse_args()
 
         if not book_name:
             return {'response': 'error'}, 400
-        
-        book = {
-            'name': book_name,
-            'description': args['book_description'],
-            'price': args['book_price'],
-            'condition': args['book_condition'],
-            'in_stock': True,
-            'last_modified': str(datetime.now())
-        }
+    
+        if args['condition']:
+            book = books.UsedBook({
+                'name': book_name,
+                'description': args['description'],
+                'price': args['price'],
+                'in_stock': args['in_stock'],
+                'condition': args['condition'],
+                'last_modified': str(datetime.now())
+            })
+        else:
+            book = books.NewBook({
+                'name': book_name,
+                'description': args['description'],
+                'price': args['price'],
+                'in_stock': args['in_stock'],
+                'last_modified': str(datetime.now())
+            })
 
-        check = books.find_one({'name': book_name})
+        check = books_collection.find_one({'name': book_name})
         if check != None:
             return {'response': 'found existing', 
                     'book': json.dumps(check, default=json_util.default)}, 200
 
-        books.insert(book)
+        books_collection.insert(book)
 
         return {'response': 'success', 'book': json.dumps(book, default=json_util.default)}, 201
 
 class BookList(Resource):
     def get(self):
-        book_list = [v for v in books.find({})]
+        book_list = [v for v in books_collection.find({})]
         
         if not book_list:
             return {'response': 'error'}, 400

@@ -13,9 +13,7 @@ def serve_admin():
 def serve_inventory():
     LOG.info('serve inventory')
 
-    book_list = requests.get('http://tiered-backend:9124/books').json()
-
-    LOG.info(book_list['books'])
+    book_list = requests.get('http://tiered-sdv701-backend:9124/books').json()
 
     if book_list['response'] == 'error':
         return render_template('/inventory.html', books='No inventory list found')
@@ -32,15 +30,21 @@ def serve_add_book():
     if request.method == 'POST':
         LOG.info('serve add book (POST)')
 
-        name = request.values.get('book_name'),
-        description = request.values.get('book_description'),
-        price = request.values.get('book_price'),
-        condition = request.values.get('book_condition'),
-        
-        r = requests.put('http://tiered-backend:9124/books/%s' % (name), 
-                        data={"book_description": description, 
-                            "book_price": price, 
-                            "book_condition": condition})
+        name = request.values.get('book_name')
+        description = request.values.get('book_description')
+        price = request.values.get('book_price')
+        condition = request.values.get('book_condition')
+        in_stock = request.values.get('in_stock')
+
+        payload = {
+            'description': description, 
+            'price': price,
+            'in_stock': in_stock
+        }
+        if condition:
+            payload['condition'] = condition
+
+        r = requests.put('http://tiered-sdv701-backend:9124/books/%s' % (name), json=payload)
         
         return redirect('/inventory')
 

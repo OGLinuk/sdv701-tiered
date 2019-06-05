@@ -1,3 +1,4 @@
+from api.models import books
 from datetime import datetime
 from flask import Flask
 from flask_cors import CORS
@@ -6,60 +7,65 @@ from flask_restful import Api
 from utils.logger import Logger
 import os
 
+# Logger instantiation
 lumbrjak = Logger(__name__, filename='api.log')
-LOG = lumbrjak.get_logger()
-
 test_lumbrjak = Logger('test', 'test.log')
 
+LOG = lumbrjak.get_logger()
 LOG.info('%s:%s' % (lumbrjak, test_lumbrjak))
 
-app = Flask(__name__)
+# App/api initialization
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_object('config')
+app.secret_key = os.urandom(24)
 CORS(app)
 api = Api(app)
 
+# Database connection
 app.config['MONGO_URI'] = os.environ.get('DB')
-
 mongo = PyMongo(app)
 database = mongo.db
-books = database.books
+books_collection = database.books
 
-book_1 = {
-    "name": "The Plague Year",
-    "description": "A journal of the black plague",
-    "price": 10,
-    "condition": "Used",
-    "in_stock": True,
-    "last_modified": str(datetime.now()),
-}
+# Dummy data
+book_1 = books.UsedBook({
+    'name': "The Plague Year",
+    'description': "A journal of the black plague",
+    'price': 10,
+    'in_stock': 7,
+    'condition': 0,
+    'last_modified': str(datetime.now())
+})
 
-book_2 = {
-    "name": "Robinson Crusoe",
-    "description": "A book about a castaway",
-    "price": 50,
-    "condition": "Used",
-    "in_stock": True,
-    "last_modified": str(datetime.now()),
-}
+book_2 = books.UsedBook({
+    'name': 'Robinson Crusoe',
+    'description': 'A book about a castaway',
+    'price': 50,
+    'in_stock': 5,
+    'condition': 1,
+    'last_modified': str(datetime.now())
+})
 
-book_3 = {
-    "name": "Henry V",
-    "description": "A play written by shakespear",
-    "price": 30,
-    "condition": "Used",
-    "in_stock": True,
-    "last_modified": str(datetime.now()),
-}
+book_3 = books.NewBook({
+    'name': 'Henry V',
+    'description': 'A play written by shakespear',
+    'price': 30,
+    'in_stock': 3,
+    'last_modified': str(datetime.now())
+})
 
+# Inserting dummy data
 dummy_books = [book_1, book_2, book_3]
+for b in dummy_books:
+    books_collection.insert(b)
 
-for book in dummy_books:
-    books.insert(book)
-
+# Test the mongo connection
 LOG.info(mongo.db.command('ismaster'))
-LOG.info('API created siccessfully ...')
 
+# Route definitions
 from api.resources import *
-
 api.add_resource(book.BookList, '/books')
 api.add_resource(book.Book, '/books/<string:book_name>')
 api.add_resource(test.Test, '/<string:test>')
+
+LOG.info('API created siccessfully ...')

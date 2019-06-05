@@ -19,12 +19,14 @@
           <br>
           Book Price: {{ book['price'] }}
           <br>
-          Book Condition: {{ book['condition'] }}
-          <br>
           In Stock: {{ book['in_stock'] }}
           <br>
           Last Modified: {{ book['last_modified'] }}
           <br>
+          {% if book['condition'] %}
+            Book Condition: {{ book['condition'] }}
+            <br>
+          {% endif %}
           <br>
         </li>
       {% endfor %}
