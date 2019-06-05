@@ -57,17 +57,29 @@ book_3 = books.NewBook({
     'last_modified': str(datetime.now())
 })
 
+book_4 = books.NewBook({
+    'type': 'new',
+    'name': 'Five',
+    'description': 'A planner for the next 5 years',
+    'price': 25,
+    'in_stock': 11,
+    'last_modified': str(datetime.now())
+})
+
 # Inserting dummy data
-dummy_books = [book_1, book_2, book_3]
+dummy_books = [book_1, book_2, book_3, book_4]
 for b in dummy_books:
-    books_collection.insert(b)
+    check = books_collection.find_one({'name': b['name']})
+    if check == None:
+        books_collection.insert(b)
 
 # Test the mongo connection
 LOG.info(mongo.db.command('ismaster'))
 
 # Route definitions
 from api.resources import *
-api.add_resource(book.BookList, '/books/<string:book_type>')
+api.add_resource(book.BookList, '/books')
+api.add_resource(book.BookTypeList, '/books/<string:book_type>')
 api.add_resource(book.Book, '/book/<string:book_name>')
 api.add_resource(test.Test, '/')
 

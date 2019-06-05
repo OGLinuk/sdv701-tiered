@@ -1,15 +1,49 @@
-{% extends 'skeleton.html' %} 
+{% extends 'skeleton.html' %}
 {% block title %}Inventory{% endblock %}
 {% block body %}
 <h1>Inventory</h1>
 {% if error %}
-    ERROR:&nbsp;{{ error }}
+ERROR:&nbsp;{{ error }}
 {% endif %}
 <br>
 <br>
 <h3><a href="/add_book">Add Book</a></h3>
 <br>
-<h3><a href="/new_books">New Book</a></h3>
+<div class="row">
+    <div class="col-md-6">
+        <h3><a href="/new_books">New Books</a></h3>
+    </div>
+    <div class="col-md-6">
+        <h3><a href="/used_books">Used Books</a></h3>
+    </div>
+</div>
 <br>
-<h3><a href="/used_books">Used Books</a></h3>
+<br>
+<h3>All Books</h3>
+<hr>
+<ol>
+    {% for book in books %}
+    <li>
+        Book ID: {{ book['_id']['$oid'] }}
+        <br>
+        Book Type: {{ book['type'] }}
+        <br>
+        Book Name: {{ book['name'] }}
+        <br>
+        Book Description: {{ book['description'] }}
+        <br>
+        Book Price: {{ book['price'] }}
+        <br>
+        In Stock: {{ book['in_stock'] }}
+        <br>
+        Last Modified: {{ book['last_modified'] }}
+        <br>
+        {% if book['condition'] %}
+            Book Condition: {{ book['condition'] }}
+        {% endif %}
+    </li>
+    <br>
+    <br>
+    {% endfor %}
+</ol>
 {% endblock %}

@@ -9,6 +9,8 @@
     <li>
         Book ID: {{ book['_id']['$oid'] }}
         <br>
+        Book Type: {{ book['type'] }}
+        <br>
         Book Name: {{ book['name'] }}
         <br>
         Book Description: {{ book['description'] }}
@@ -19,7 +21,7 @@
         <br>
         Last Modified: {{ book['last_modified'] }}
         <br>
-        <b>Book Condition:</b> {{ book['condition'] }}
+        Book Condition: {{ book['condition'] }}
     </li>
     <br>
     <br>

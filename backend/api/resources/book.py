@@ -50,6 +50,17 @@ class Book(Resource):
         return {'response': 'success', 'book': json.dumps(book, default=json_util.default)}, 201
 
 class BookList(Resource):
+    def get(self):
+        book_list = [v for v in books_collection.find({})]
+        
+        if not book_list:
+            return {'response': 'error'}, 400
+
+        return {'response': 'success', 
+                'books': json.dumps(book_list, default=json_util.default)}, 200
+
+
+class BookTypeList(Resource):
     def get(self, book_type):
         book_list = [v for v in books_collection.find({'type': book_type})]
         

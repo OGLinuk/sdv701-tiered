@@ -1,5 +1,7 @@
 from app import app, LOG
 from flask import render_template
+import requests
+import json
 
 @app.route('/admin', methods=['GET'])
 def serve_admin():
@@ -9,7 +11,15 @@ def serve_admin():
 @app.route('/inventory', methods=['GET'])
 def serve_inventory():
     LOG.info('serve_inventory(GET)')
-    return render_template('/inventory.html')
+        
+    book_list = requests.get('http://tiered-sdv701-backend:9124/books').json()
+
+    LOG.info(book_list)
+
+    if book_list['response'] == 'error':
+        return render_template('/inventory.html', error='No inventory list found')
+
+    return render_template('/inventory.html', books=json.loads(book_list['books']))
 
 @app.route('/orders', methods=['GET'])
 def serve_orders():
