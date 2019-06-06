@@ -13,7 +13,6 @@ def serve_inventory():
     LOG.info('serve_inventory(GET)')
         
     book_list = requests.get('http://tiered-sdv701-backend:9124/books').json()
-
     LOG.info(book_list)
 
     if book_list['response'] == 'error':

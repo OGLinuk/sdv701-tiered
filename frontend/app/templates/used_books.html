@@ -7,11 +7,11 @@
 <ol>
     {% for book in books %}
     <li>
+        Book Name: <a href="/edit_book?name={{ book['name'] }}">{{ book['name'] }}</a> 
+        <br>
         Book ID: {{ book['_id']['$oid'] }}
         <br>
         Book Type: {{ book['type'] }}
-        <br>
-        Book Name: {{ book['name'] }}
         <br>
         Book Description: {{ book['description'] }}
         <br>
@@ -20,6 +20,8 @@
         In Stock: {{ book['in_stock'] }}
         <br>
         Last Modified: {{ book['last_modified'] }}
+        <br>
+        Book Type: {{ book['type'] }}
         <br>
         Book Condition: {{ book['condition'] }}
     </li>

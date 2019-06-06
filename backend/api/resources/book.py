@@ -4,50 +4,107 @@ from bson import json_util
 from datetime import datetime
 from flask import request
 from flask_restful import Resource, reqparse
+from pymongo import ReturnDocument
 import json
 
 class Book(Resource):
     def put(self, book_name):
         parser = reqparse.RequestParser()
         
+        parser.add_argument('type', type=str, required=True, help='Type of book')
         parser.add_argument('description', type=str, required=True, help='Description of book')
         parser.add_argument('price', type=int, required=True, help='Price of book')
         parser.add_argument('in_stock', type=int, required=True, help='Quantity of stock')
         parser.add_argument('condition', type=int, help='Condition of book')
+        parser.add_argument('edit', type=bool, help='Check if editing book')
+        parser.add_argument('name', type=str, help='New name if editing book')
         
         args = parser.parse_args()
 
         if not book_name:
             return {'response': 'error'}, 400
-    
-        if args['condition']:
-            book = books.UsedBook({
-                'type': 'used',
-                'name': book_name,
-                'description': args['description'],
-                'price': args['price'],
-                'in_stock': args['in_stock'],
-                'condition': args['condition'],
-                'last_modified': str(datetime.now())
-            })
+
+        # TODO: Need to fix bug where condition remains when changing from used to new type 
+        # Editing book
+        if args['edit']:
+            if args['condition']:
+                book = books_collection.find_one_and_update(
+                    {'name': book_name},
+                    {
+                        '$set': {
+                            'name': args['name'],
+                            'type': args['type'],
+                            'description': args['description'],
+                            'price': args['price'],
+                            'in_stock': args['in_stock'],
+                            'condition': books.Condition(args['condition']).name,
+                            'last_modified': str(datetime.now())
+                        }
+                    },
+                    return_document=ReturnDocument.AFTER
+                )
+            else:
+                book = books_collection.find_one_and_update(
+                    {'name': book_name},
+                    {
+                        '$set': {
+                            'name': args['name'],
+                            'type': args['type'],
+                            'description': args['description'],
+                            'price': args['price'],
+                            'in_stock': args['in_stock'],
+                            'last_modified': str(datetime.now())
+                        }
+                    },
+                    return_document=ReturnDocument.AFTER
+                )
+
+            check = books_collection.find_one({'name': book['name']})
+            if check != None:
+                return {'response': 'found existing', 
+                        'book': json.dumps(check, default=json_util.default)}, 200
+            else:
+                return {'response': 'error'}, 400
+
+        # Adding book
         else:
-            book = books.NewBook({
-                'type': 'new',
-                'name': book_name,
-                'description': args['description'],
-                'price': args['price'],
-                'in_stock': args['in_stock'],
-                'last_modified': str(datetime.now())
-            })
+            if args['condition']:
+                book = books.UsedBook({
+                    'name': book_name,
+                    'type': args['type'],
+                    'description': args['description'],
+                    'price': args['price'],
+                    'in_stock': args['in_stock'],
+                    'condition': args['condition'],
+                    'last_modified': str(datetime.now())
+                })
+            else:
+                book = books.NewBook({
+                    'name': book_name,
+                    'type': args['type'],
+                    'description': args['description'],
+                    'price': args['price'],
+                    'in_stock': args['in_stock'],
+                    'last_modified': str(datetime.now())
+                })
 
-        check = books_collection.find_one({'name': book_name})
-        if check != None:
-            return {'response': 'found existing', 
-                    'book': json.dumps(check, default=json_util.default)}, 200
+            check = books_collection.find_one({'name': book_name})
+            if check != None:
+                return {'response': 'found existing', 
+                        'book': json.dumps(check, default=json_util.default)}, 200
 
-        books_collection.insert(book)
+            books_collection.insert(book)
 
-        return {'response': 'success', 'book': json.dumps(book, default=json_util.default)}, 201
+            return {'response': 'success', 'book': json.dumps(book, default=json_util.default)}, 201
+
+    def get(self, book_name):
+        book = books_collection.find_one({'name': book_name})
+
+        if not book:
+            return {'response': 'error'}, 400
+
+        return {'response': 'success', 
+                'book': json.dumps(book, default=json_util.default)}, 200
 
 class BookList(Resource):
     def get(self):

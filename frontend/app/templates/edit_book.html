@@ -1,0 +1,51 @@
+{% extends 'skeleton.html' %}
+{% block title %}Edit{% endblock %}
+{% block body %}
+<h1>Edit Book: {{ book['name'] }}</h1>
+<br>
+<br>
+<form method="POST" action="{{ url_for('serve_edit_book') }}">
+  <input type="hidden" name="old_book_name" value="{{ book['name'] }}">
+  Book name:
+  <br>
+  <input type="text" name="book_name" value="{{ book['name'] }}">
+  <br>
+  <br>
+  Book description:
+  <br>
+  <input type="text" name="book_description" value="{{ book['description'] }}">
+  <br>
+  <br>
+  Book price:
+  <br>
+  <input type="number" min="1" step="0.01" name="book_price" value="{{ book['price'] }}">
+  <br>
+  <br>
+  Quantity:
+  <br>
+  <input type="number" min="1" step="1" name="in_stock" value="{{ book['in_stock'] }}">
+  <br>
+  <br>
+  Book condition:
+  <br>
+  {% if book['condition'] %}
+    <input type="radio" name="book_type" value="New"> New<br>
+    <input type="radio" name="book_type" value="Used" checked> Used<br>
+  {% else %}
+    <input type="radio" name="book_type" value="New" checked> New<br>
+    <input type="radio" name="book_type" value="Used"> Used<br>
+  {% endif %}
+  <br>
+  <div class="used-book-conditions">
+    Condition:&nbsp;
+    <select name="book_condition">
+      <option value="0">Slightly Worn</option>
+      <option value="1">Moderately Worn</option>
+      <option value="2">Heavily Worn</option>
+    </select>
+  </div>
+  <br>
+  <input type="submit" value="Submit">
+</form>
+<script src="/static/js/used_book.js"></script>
+{% endblock %}
