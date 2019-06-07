@@ -34,6 +34,7 @@ def serve_add_book():
         LOG.info('serve_add_book(POST)')
 
         book_type = request.values.get('book_type').lower()
+        genre = request.values.get('book_genre')
         name = request.values.get('book_name')
         description = request.values.get('book_description')
         price = request.values.get('book_price')
@@ -42,6 +43,7 @@ def serve_add_book():
 
         payload = {
             'type': book_type,
+            'genre': genre,
             'description': description, 
             'price': price,
             'in_stock': in_stock
@@ -64,6 +66,7 @@ def serve_edit_book():
 
         book_name = request.values.get('old_book_name')
         book_type = request.values.get('book_type').lower()
+        genre = request.values.get('book_genre')
         name = request.values.get('book_name')
         description = request.values.get('book_description')
         price = request.values.get('book_price')
@@ -74,6 +77,7 @@ def serve_edit_book():
             'edit': True,
             'name': name,
             'type': book_type,
+            'genre': genre,
             'description': description, 
             'price': price,
             'in_stock': in_stock

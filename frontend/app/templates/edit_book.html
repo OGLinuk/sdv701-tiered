@@ -16,6 +16,13 @@
   <input type="text" name="book_description" value="{{ book['description'] }}">
   <br>
   <br>
+  Book genre:&nbsp;
+  <select name="book_genre">
+    <option value="0">Fiction</option>
+    <option value="1">Non-fiction</option>
+  </select>  
+  <br>
+  <br>
   Book price:
   <br>
   <input type="number" min="1" step="0.01" name="book_price" value="{{ book['price'] }}">

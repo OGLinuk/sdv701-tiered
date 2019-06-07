@@ -2,12 +2,19 @@ import datetime
 import enum
 
 class Condition(enum.Enum):
-    HEAVILY_WORN = 2
-    MODERATELY_WORN = 1
     SLIGHTLY_WORN = 0
+    MODERATELY_WORN = 1
+    HEAVILY_WORN = 2
+
+
+class Genre(enum.Enum):
+    FICTION = 0
+    NON_FICTION = 1
+    
 
 class Book(dict):
     def __init__(self, *args, **kwargs):
+        args[0]['genre'] = Genre(args[0]['genre']).name
         super().__init__(*args, **kwargs)
 
 class NewBook(Book):

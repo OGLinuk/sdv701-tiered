@@ -32,6 +32,7 @@ book_1 = books.UsedBook({
     'type': 'used',
     'name': "The Plague Year",
     'description': "A journal of the black plague",
+    'genre': 1,
     'price': 10,
     'in_stock': 7,
     'condition': 0,
@@ -42,6 +43,7 @@ book_2 = books.UsedBook({
     'type': 'used',
     'name': 'Robinson Crusoe',
     'description': 'A book about a castaway',
+    'genre': 0,
     'price': 50,
     'in_stock': 5,
     'condition': 1,
@@ -52,6 +54,7 @@ book_3 = books.NewBook({
     'type': 'new',
     'name': 'Henry V',
     'description': 'A play written by shakespear',
+    'genre': 0,
     'price': 30,
     'in_stock': 3,
     'last_modified': str(datetime.now())
@@ -61,6 +64,7 @@ book_4 = books.NewBook({
     'type': 'new',
     'name': 'Five',
     'description': 'A planner for the next 5 years',
+    'genre': 1,
     'price': 25,
     'in_stock': 11,
     'last_modified': str(datetime.now())

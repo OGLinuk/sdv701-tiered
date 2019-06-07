@@ -12,6 +12,7 @@ class Book(Resource):
         parser = reqparse.RequestParser()
         
         parser.add_argument('type', type=str, required=True, help='Type of book')
+        parser.add_argument('genre', type=int, required=True, help='Genre of book')
         parser.add_argument('description', type=str, required=True, help='Description of book')
         parser.add_argument('price', type=int, required=True, help='Price of book')
         parser.add_argument('in_stock', type=int, required=True, help='Quantity of stock')
@@ -34,6 +35,7 @@ class Book(Resource):
                         '$set': {
                             'name': args['name'],
                             'type': args['type'],
+                            'genre': args['genre'],
                             'description': args['description'],
                             'price': args['price'],
                             'in_stock': args['in_stock'],
@@ -50,6 +52,7 @@ class Book(Resource):
                         '$set': {
                             'name': args['name'],
                             'type': args['type'],
+                            'genre': args['genre'],
                             'description': args['description'],
                             'price': args['price'],
                             'in_stock': args['in_stock'],
@@ -72,6 +75,7 @@ class Book(Resource):
                 book = books.UsedBook({
                     'name': book_name,
                     'type': args['type'],
+                    'genre': args['genre'],
                     'description': args['description'],
                     'price': args['price'],
                     'in_stock': args['in_stock'],
@@ -82,6 +86,7 @@ class Book(Resource):
                 book = books.NewBook({
                     'name': book_name,
                     'type': args['type'],
+                    'genre': args['genre'],
                     'description': args['description'],
                     'price': args['price'],
                     'in_stock': args['in_stock'],
