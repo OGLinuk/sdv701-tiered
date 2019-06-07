@@ -93,3 +93,14 @@ def serve_edit_book():
     LOG.info(book)
 
     return render_template('/edit_book.html', book=json.loads(book['book']))
+
+@app.route('/delete_book', methods=['GET'])
+def serve_delete_book():
+    LOG.info('serve_delete_book(GET)')
+
+    book_name = request.args.get('name')
+
+    r = requests.delete('http://tiered-sdv701-backend:9124/book/{}'.format(book_name)).json()
+    LOG.info(r)
+
+    return redirect('/inventory')

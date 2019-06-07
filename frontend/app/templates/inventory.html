@@ -10,11 +10,19 @@ ERROR:&nbsp;{{ error }}
 <h3><a href="/add_book">Add Book</a></h3>
 <br>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-4">
         <h3><a href="/new_books">New Books</a></h3>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h3><a href="/used_books">Used Books</a></h3>
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
     </div>
 </div>
 <br>
@@ -24,7 +32,7 @@ ERROR:&nbsp;{{ error }}
 <ol>
     {% for book in books %}
     <li>
-        Book Name: <a href="/edit_book?name={{ book['name'] }}">{{ book['name'] }}</a> 
+        Book Name: {{ book['name'] }}
         <br>
         Book ID: {{ book['_id']['$oid'] }}
         <br>
@@ -39,9 +47,39 @@ ERROR:&nbsp;{{ error }}
         Book Type: {{ book['type'] }}
         <br>
         {% if book['condition'] %}
-            Book Condition: {{ book['condition'] }}
-            <br>
+        Book Condition: {{ book['condition'] }}
+        <br>
         {% endif %}
+        <br>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+                <a href="/edit_book?name={{ book['name'] }}">Edit</a>
+            </div>
+            <div class="col-md-1">
+                <a href="/delete_book?name={{ book['name'] }}">Delete</a>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+        <br>
     </li>
     <br>
     <br>

@@ -97,6 +97,17 @@ class Book(Resource):
 
             return {'response': 'success', 'book': json.dumps(book, default=json_util.default)}, 201
 
+    def delete(self, book_name):
+        book = books_collection.delete_one({'name': book_name})
+
+        LOG.info(book.raw_result)
+
+        check = books_collection.find_one({'name': book_name})
+        if check == None:
+            return {'response': 'success'}, 200
+        else:
+            return {'response': 'error'}, 400
+
     def get(self, book_name):
         book = books_collection.find_one({'name': book_name})
 

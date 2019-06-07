@@ -2,16 +2,14 @@
 {% block title %}Used Books{% endblock %}
 {% block body %}
 <h1>Used Books</h1>
-<br>
-<br>
+<h3><a href="/inventory">Back</a></h3>
+<hr>
 <ol>
     {% for book in books %}
     <li>
-        Book Name: <a href="/edit_book?name={{ book['name'] }}">{{ book['name'] }}</a> 
+        Book Name: {{ book['name'] }}
         <br>
         Book ID: {{ book['_id']['$oid'] }}
-        <br>
-        Book Type: {{ book['type'] }}
         <br>
         Book Description: {{ book['description'] }}
         <br>
@@ -24,6 +22,36 @@
         Book Type: {{ book['type'] }}
         <br>
         Book Condition: {{ book['condition'] }}
+        <br>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+                <a href="/edit_book?name={{ book['name'] }}">Edit</a>            
+            </div>
+            <div class="col-md-1">
+                <a href="/delete_book?name={{ book['name'] }}">Delete</a>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>       
+        <br>
     </li>
     <br>
     <br>
