@@ -1,0 +1,38 @@
+{% extends 'skeleton.html' %}
+{% block title %}Inventory{% endblock %}
+{% block body %}
+<h1>Inventory</h1>
+{% if error %}
+ERROR:&nbsp;{{ error }}
+{% endif %}
+<ol>
+    {% for book in books %}
+    <li>
+        Book Name: {{ book['name'] }}
+        <br>
+        Book ID: {{ book['_id']['$oid'] }}
+        <br>
+        Book Description: {{ book['description'] }}
+        <br>
+        Book Genre: {{ book['genre'] }}
+        <br>
+        Book Price: {{ book['price'] }}
+        <br>
+        In Stock: {{ book['in_stock'] }}
+        <br>
+        Last Modified: {{ book['last_modified'] }}
+        <br>
+        Book Type: {{ book['type'] }}
+        <br>
+        {% if book['condition'] %}
+        Book Condition: {{ book['condition'] }}
+        <br>
+        {% endif %}
+        <br>
+        <a href="/order_book?name={{ book['name'] }}">Order</a>
+    </li>
+    <br>
+    <br>
+    {% endfor %}
+</ol>
+{% endblock %}

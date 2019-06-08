@@ -8,7 +8,7 @@ def serve_admin():
     LOG.info('serve_admin(GET)')
     return render_template('/admin.html')
 
-@app.route('/inventory', methods=['GET'])
+@app.route('/list_inventory', methods=['GET'])
 def serve_inventory():
     LOG.info('serve_inventory(GET)')
         
@@ -16,11 +16,11 @@ def serve_inventory():
     LOG.info(book_list)
 
     if book_list['response'] == 'error':
-        return render_template('/inventory.html', error='No inventory list found')
+        return render_template('/admin_inventory.html', error='No inventory list found')
 
-    return render_template('/inventory.html', books=json.loads(book_list['books']))
+    return render_template('/admin_inventory.html', books=json.loads(book_list['books']))
 
-@app.route('/orders', methods=['GET'])
+@app.route('/list_orders', methods=['GET'])
 def serve_orders():
     LOG.info('serve_orders(GET)')
     return render_template('/orders.html')

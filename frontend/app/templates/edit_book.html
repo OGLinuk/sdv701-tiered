@@ -36,11 +36,11 @@
   Book condition:
   <br>
   {% if book['condition'] %}
-    <input type="radio" name="book_type" value="New"> New<br>
-    <input type="radio" name="book_type" value="Used" checked> Used<br>
+    <input type="radio" name="book_type" value="new"> New<br>
+    <input type="radio" name="book_type" value="used" checked> Used<br>
   {% else %}
-    <input type="radio" name="book_type" value="New" checked> New<br>
-    <input type="radio" name="book_type" value="Used"> Used<br>
+    <input type="radio" name="book_type" value="new" checked> New<br>
+    <input type="radio" name="book_type" value="used"> Used<br>
   {% endif %}
   <br>
   <div class="used-book-conditions">
