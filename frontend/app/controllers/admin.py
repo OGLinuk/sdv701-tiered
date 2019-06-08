@@ -3,6 +3,8 @@ from flask import render_template
 import requests
 import json
 
+API_PATH = 'http://tiered-sdv701-backend:9124'
+
 @app.route('/admin', methods=['GET'])
 def serve_admin():
     LOG.info('serve_admin(GET)')
@@ -12,7 +14,7 @@ def serve_admin():
 def serve_inventory():
     LOG.info('serve_inventory(GET)')
         
-    book_list = requests.get('http://tiered-sdv701-backend:9124/books').json()
+    book_list = requests.get('{}/books'.format(API_PATH)).json()
     LOG.info(book_list)
 
     if book_list['response'] == 'error':

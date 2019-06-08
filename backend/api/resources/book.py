@@ -100,7 +100,17 @@ class Book(Resource):
 
             books_collection.insert(book)
 
-            return {'response': 'success', 'book': json.dumps(book, default=json_util.default)}, 201
+            return {'response': 'success', 
+                'book': json.dumps(book, default=json_util.default)}, 201
+
+    def get(self, book_name):
+        book = books_collection.find_one({'name': book_name})
+
+        if not book:
+            return {'response': 'error'}, 400
+
+        return {'response': 'success', 
+                'book': json.dumps(book, default=json_util.default)}, 200
 
     def delete(self, book_name):
         book = books_collection.delete_one({'name': book_name})
@@ -112,15 +122,6 @@ class Book(Resource):
             return {'response': 'success'}, 200
         else:
             return {'response': 'error'}, 400
-
-    def get(self, book_name):
-        book = books_collection.find_one({'name': book_name})
-
-        if not book:
-            return {'response': 'error'}, 400
-
-        return {'response': 'success', 
-                'book': json.dumps(book, default=json_util.default)}, 200
 
 class BookList(Resource):
     def get(self):

@@ -3,11 +3,13 @@ from flask import render_template, redirect, request
 import requests
 import json
 
+API_PATH = 'http://tiered-sdv701-backend:9124'
+
 @app.route('/new_books', methods=['GET'])
 def serve_new_books():
     LOG.info('serve_new_books(GET)')
 
-    book_list = requests.get('http://tiered-sdv701-backend:9124/books_type/new').json()
+    book_list = requests.get('{}/books_type/new'.format(API_PATH)).json()
     LOG.info(book_list)
 
     if book_list['response'] == 'error':
@@ -19,7 +21,7 @@ def serve_new_books():
 def serve_used_books():
     LOG.info('serve_used_books(GET)')
 
-    book_list = requests.get('http://tiered-sdv701-backend:9124/books_type/used').json()
+    book_list = requests.get('{}/books_type/used'.format(API_PATH)).json()
     LOG.info(book_list)
 
     if book_list['response'] == 'error':
@@ -51,7 +53,7 @@ def serve_add_book():
         if condition:
             payload['condition'] = condition
 
-        r = requests.put('http://tiered-sdv701-backend:9124/book/{}'.format(name), json=payload)
+        r = requests.put('{}/book/{}'.format(API_PATH, name), json=payload)
         LOG.info(r.json())
 
         return redirect('/list_inventory')
@@ -85,7 +87,7 @@ def serve_edit_book():
         if condition:
             payload['condition'] = condition
 
-        r = requests.put('http://tiered-sdv701-backend:9124/book/{}'.format(book_name), json=payload)
+        r = requests.put('{}/book/{}'.format(API_PATH, book_name), json=payload)
         LOG.info(r.json())
 
         return redirect('/list_inventory')
@@ -93,7 +95,7 @@ def serve_edit_book():
     LOG.info('serve_edit_book(GET)')
 
     book_name = request.args.get('name')
-    book = requests.get('http://tiered-sdv701-backend:9124/book/{}'.format(book_name)).json()
+    book = requests.get('{}/book/{}'.format(API_PATH, book_name)).json()
     LOG.info(book)
 
     return render_template('/edit_book.html', book=json.loads(book['book']))
@@ -104,7 +106,7 @@ def serve_delete_book():
 
     book_name = request.args.get('name')
 
-    r = requests.delete('http://tiered-sdv701-backend:9124/book/{}'.format(book_name)).json()
+    r = requests.delete('{}/book/{}'.format(API_PATH, book_name)).json()
     LOG.info(r)
 
     return redirect('/list_inventory')
