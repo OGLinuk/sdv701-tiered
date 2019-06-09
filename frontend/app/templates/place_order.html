@@ -4,4 +4,16 @@
 <h1>Place Order</h1>
 <br>
 <br>
+Book Name: {{ book['name'] }}
+<br>
+Book Price: {{ book['price'] }}
+<br>
+In Stock: {{ book['in_stock'] }}
+<br>
+<br>
+<form method="POST" action="{{ url_for('serve_order_book') }}">
+    <input type="hidden" name="name" value="{{ book['name'] }}">
+    <input type="number" name="quantity" step="1" max="{{ book['in_stock'] }}" value="1">
+    <input type="submit" value="Submit">
+</form>
 {% endblock %}

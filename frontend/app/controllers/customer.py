@@ -1,5 +1,5 @@
 from app import app, LOG
-from flask import render_template, request
+from flask import render_template, redirect, request
 import requests
 import json
 
@@ -32,6 +32,9 @@ def serve_search_inventory():
 
             if book_list['response'] == 'error':
                 return render_template('/customer_inventory.html', error='No inventory list found')
+
+        if by_genre == 'none' and by_type == 'none':
+            return redirect('/customer')
             
         return render_template('/customer_inventory.html', books=json.loads(book_list['books']))
 

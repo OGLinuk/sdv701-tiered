@@ -11,12 +11,12 @@ class Book(Resource):
     def put(self, book_name):
         parser = reqparse.RequestParser()
         
-        parser.add_argument('type', type=str, required=True, help='Type of book')
-        parser.add_argument('genre', type=int, required=True, help='Genre of book')
-        parser.add_argument('description', type=str, required=True, help='Description of book')
-        parser.add_argument('price', type=int, required=True, help='Price of book')
-        parser.add_argument('in_stock', type=int, required=True, help='Quantity of stock')
-        parser.add_argument('condition', type=int, help='Condition of book')
+        parser.add_argument('type', type=str, help='Type of book')
+        parser.add_argument('genre', help='Genre of book')
+        parser.add_argument('description', type=str, help='Description of book')
+        parser.add_argument('price', type=int, help='Price of book')
+        parser.add_argument('in_stock', type=int, help='Quantity of stock')
+        parser.add_argument('condition', help='Condition of book')
         parser.add_argument('edit', type=bool, help='Check if editing book')
         parser.add_argument('name', type=str, help='New name if editing book')
         
@@ -28,7 +28,18 @@ class Book(Resource):
         # TODO: Need to fix bug where condition remains when changing from used to new type 
         # Editing book
         if args['edit']:
+
+            genre = args['genre']
+            if isinstance(genre, int):
+                genre = books.Genre(genre)
+
+            # Used book
             if args['condition']:
+
+                condition = args['condition']
+                if isinstance(condition, int):
+                    condition = books.Condition(args['condition']).name
+
                 book = books_collection.find_one_and_update(
                     {'name': book_name},
                     {
@@ -39,12 +50,13 @@ class Book(Resource):
                             'description': args['description'],
                             'price': args['price'],
                             'in_stock': args['in_stock'],
-                            'condition': books.Condition(args['condition']).name,
+                            'condition': condition,
                             'last_modified': str(datetime.now())
                         }
                     },
                     return_document=ReturnDocument.AFTER
                 )
+            # New book
             else:
                 book = books_collection.find_one_and_update(
                     {'name': book_name},
