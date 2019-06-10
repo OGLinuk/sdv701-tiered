@@ -50,7 +50,7 @@ def serve_add_book():
             'price': price,
             'in_stock': in_stock
         }
-        if condition:
+        if book_type == 'used':
             payload['condition'] = condition
 
         r = requests.put('{}/book/{}'.format(API_PATH, name), json=payload)
@@ -84,7 +84,7 @@ def serve_edit_book():
             'price': price,
             'in_stock': in_stock
         }
-        if condition:
+        if book_type == 'used':
             payload['condition'] = condition
 
         r = requests.put('{}/book/{}'.format(API_PATH, book_name), json=payload)
