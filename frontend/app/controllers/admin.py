@@ -1,5 +1,5 @@
 from app import app, LOG
-from flask import render_template
+from flask import render_template, redirect
 import requests
 import json
 
@@ -18,11 +18,18 @@ def serve_inventory():
     LOG.info(book_list)
 
     if book_list['response'] == 'error':
-        return render_template('/admin_inventory.html', error='No inventory list found')
+        return render_template('/admin.html', error='No inventory list found')
 
     return render_template('/admin_inventory.html', books=json.loads(book_list['books']))
 
 @app.route('/list_orders', methods=['GET'])
 def serve_orders():
     LOG.info('serve_orders(GET)')
-    return render_template('/orders.html')
+
+    order_list = requests.get('{}/orders'.format(API_PATH)).json()
+    LOG.info(order_list)
+
+    if order_list['response'] == 'error':
+        return render_template('/admin.html', error='No order list found')
+
+    return render_template('/orders.html', orders=json.loads(order_list['orders']))

@@ -1,4 +1,3 @@
-import datetime
 import enum
 
 class Condition(enum.Enum):

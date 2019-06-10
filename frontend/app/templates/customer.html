@@ -4,6 +4,11 @@
 <h1>Customer</h1>
 <br>
 <br>
+{% if status %}
+    <h3>STATUS: {{ status }}</h3>
+    <br>
+    <br>
+{% endif %}
 <input type="radio" name="book_type" value="genre" checked> Genre &nbsp;&nbsp;&nbsp;
 <input type="radio" name="book_type" value="type"> Type
 <br>

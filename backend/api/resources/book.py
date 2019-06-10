@@ -12,11 +12,11 @@ class Book(Resource):
         parser = reqparse.RequestParser()
         
         parser.add_argument('type', type=str, help='Type of book')
-        parser.add_argument('genre', type=int, help='Genre of book')
+        parser.add_argument('genre', help='Genre of book')
         parser.add_argument('description', type=str, help='Description of book')
         parser.add_argument('price', type=float, help='Price of book')
         parser.add_argument('in_stock', type=int, help='Quantity of stock')
-        parser.add_argument('condition', type=int, help='Condition of book')
+        parser.add_argument('condition', help='Condition of book')
         parser.add_argument('edit', type=bool, help='Check if editing book')
         parser.add_argument('name', type=str, help='New name if editing book')
         
@@ -87,18 +87,18 @@ class Book(Resource):
                 book = books.UsedBook({
                     'name': book_name,
                     'type': args['type'],
-                    'genre': args['genre'],
+                    'genre': int(args['genre']),
                     'description': args['description'],
                     'price': args['price'],
                     'in_stock': args['in_stock'],
-                    'condition': args['condition'],
+                    'condition': int(args['condition']),
                     'last_modified': str(datetime.now())
                 })
             else:
                 book = books.NewBook({
                     'name': book_name,
                     'type': args['type'],
-                    'genre': args['genre'],
+                    'genre': int(args['genre']),
                     'description': args['description'],
                     'price': args['price'],
                     'in_stock': args['in_stock'],

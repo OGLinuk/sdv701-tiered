@@ -26,6 +26,7 @@ app.config['MONGO_URI'] = os.environ.get('DB')
 mongo = PyMongo(app)
 database = mongo.db
 books_collection = database.books
+orders_collection = database.orders
 
 # Dummy data
 book_1 = books.UsedBook({
@@ -86,6 +87,8 @@ api.add_resource(book.BookList, '/books')
 api.add_resource(book.BookTypeList, '/books_type/<string:book_type>')
 api.add_resource(book.BookGenreList, '/books_genre/<string:book_genre>')
 api.add_resource(book.Book, '/book/<string:book_name>')
+api.add_resource(order.Order, '/order/<string:book_id>')
+api.add_resource(order.OrderList, '/orders')
 api.add_resource(test.Test, '/')
 
 LOG.info('API created siccessfully ...')

@@ -14,6 +14,11 @@ In Stock: {{ book['in_stock'] }}
 <form method="POST" action="{{ url_for('serve_order_book') }}">
     <input type="hidden" name="name" value="{{ book['name'] }}">
     <input type="number" name="quantity" step="1" max="{{ book['in_stock'] }}" value="1">
+    <br>
+    <input type="text" name="customer_name" value="John Doe">
+    <br>
+    <input type="text" name="customer_address" value="123 Timbucktoo Lane">
+    <br>
     <input type="submit" value="Submit">
 </form>
 {% endblock %}

@@ -34,7 +34,7 @@ def serve_search_inventory():
                 return render_template('/customer_inventory.html', error='No inventory list found')
 
         if by_genre == 'none' and by_type == 'none':
-            return redirect('/customer')
+            return redirect('/customer', status='Please select search by option ...')
             
         return render_template('/customer_inventory.html', books=json.loads(book_list['books']))
 

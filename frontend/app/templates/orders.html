@@ -7,9 +7,17 @@
 <ol>
   {% for order in orders %}
   <li>
-    Order ID: {{ order['order_id'] }}
+    Order ID: {{ order['_id']['$oid'] }}
     <br>
-    Product Name: {{ order['product_name'] }}
+    Product Name: {{ order['book_name'] }}
+    <br>
+    Order Price: {{ order['order_price'] }}
+    <br> 
+    Order Quantity: {{ order['order_quantity'] }}
+    <br>
+    Customer: {{ order['customer_name'] }}
+    <br>
+    Customer Address: {{ order['customer_address'] }}
     <br>
     <br>
   </li>

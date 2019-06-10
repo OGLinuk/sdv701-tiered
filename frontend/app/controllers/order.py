@@ -1,5 +1,5 @@
 from app import app, LOG
-from flask import render_template, redirect, request
+from flask import render_template, request
 import requests
 import json
 
@@ -12,13 +12,15 @@ def serve_order_book():
 
         order_quantity = request.values.get('quantity')
         book_name = request.values.get('name')
+        customer_name = request.values.get('customer_name')
+        customer_address = request.values.get('customer_address')
 
         book = requests.get('{}/book/{}'.format(API_PATH, book_name)).json()
         book = json.loads(book['book'])
 
         book['in_stock'] -= int(order_quantity)
 
-        payload = {
+        book_payload = {
             'edit': True,
             'name': book['name'],
             'type': book['type'],
@@ -28,12 +30,23 @@ def serve_order_book():
             'in_stock': book['in_stock']
         }
         if book['type'] == 'used':
-            payload['condition'] = book['condition']
+            book_payload['condition'] = book['condition']
 
-        r = requests.put('{}/book/{}'.format(API_PATH, book_name), json=payload)
+        LOG.info('PAYLOAD\n{}'.format(book_payload))
+
+        r = requests.put('{}/book/{}'.format(API_PATH, book_name), json=book_payload)
         LOG.info(r.json())
 
-        return redirect('/customer')
+        order_payload = {
+            'order_quantity': order_quantity,
+            'customer_name': customer_name,
+            'customer_address': customer_address
+        }
+
+        r = requests.put('{}/order/{}'.format(API_PATH, book['_id']['$oid']), json=order_payload)
+        LOG.info(r.json())
+
+        return render_template('/customer.html', status='Order placed successfully ...')
 
     LOG.info('serve_order_book(GET)')
 

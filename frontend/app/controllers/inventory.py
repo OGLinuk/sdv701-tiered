@@ -13,7 +13,7 @@ def serve_new_books():
     LOG.info(book_list)
 
     if book_list['response'] == 'error':
-        return render_template('/admin_inventory.html', error='No inventory list found')
+        return render_template('/admin.html', error='No inventory list found')
 
     return render_template('/new_books.html', books=json.loads(book_list['books']))
 
@@ -25,7 +25,7 @@ def serve_used_books():
     LOG.info(book_list)
 
     if book_list['response'] == 'error':
-        return render_template('/admin_inventory.html', error='No inventory list found')
+        return render_template('/admin.html', error='No inventory list found')
 
     return render_template('/used_books.html', books=json.loads(book_list['books']))
 
@@ -61,7 +61,7 @@ def serve_add_book():
     LOG.info('serve_add_book(GET)')
     return render_template('/add_book.html')
 
-@app.route('/edit_book', methods=['GET', 'POST', 'PATCH'])
+@app.route('/edit_book', methods=['GET', 'POST'])
 def serve_edit_book():
     if request.method == 'POST':
         LOG.info('serve_edit_book(POST)')
