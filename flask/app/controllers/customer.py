@@ -3,7 +3,7 @@ from flask import render_template, redirect, request
 import requests
 import json
 
-API_PATH = 'http://tiered-sdv701-backend:9124'
+API_PATH = 'http://tiered-sdv701-backend:9125'
 
 @app.route('/customer', methods=['GET'])
 def serve_customer():
