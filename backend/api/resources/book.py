@@ -10,7 +10,6 @@ import json
 class Book(Resource):
     def put(self, book_name):
         parser = reqparse.RequestParser()
-        
         parser.add_argument('type', type=str, help='Type of book')
         parser.add_argument('genre', help='Genre of book')
         parser.add_argument('description', type=str, help='Description of book')
@@ -18,8 +17,7 @@ class Book(Resource):
         parser.add_argument('in_stock', type=int, help='Quantity of stock')
         parser.add_argument('condition', help='Condition of book')
         parser.add_argument('edit', type=bool, help='Check if editing book')
-        parser.add_argument('name', type=str, help='New name if editing book')
-        
+        parser.add_argument('name', type=str, help='New name if editing book')   
         args = parser.parse_args()
 
         if not book_name:
@@ -34,7 +32,7 @@ class Book(Resource):
                 genre = books.Genre(genre).name
 
             # Used book
-            if args['condition']:
+            if args['type'] == 'used':
 
                 condition = args['condition']
                 if isinstance(condition, int):
@@ -83,7 +81,7 @@ class Book(Resource):
 
         # Adding book
         else:
-            if args['condition']:
+            if args['type'] == 'used':
                 book = books.UsedBook({
                     'name': book_name,
                     'type': args['type'],
@@ -125,9 +123,8 @@ class Book(Resource):
                 'book': json.dumps(book, default=json_util.default)}, 200
 
     def delete(self, book_name):
-        book = books_collection.delete_one({'name': book_name})
-
-        LOG.info(book.raw_result)
+        book_del = books_collection.delete_one({'name': book_name})
+        LOG.info(book_del.raw_result)
 
         check = books_collection.find_one({'name': book_name})
         if check == None:

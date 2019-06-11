@@ -1,5 +1,5 @@
 from app import app, LOG
-from flask import render_template, request
+from flask import render_template, redirect, request
 import requests
 import json
 
@@ -32,18 +32,17 @@ def serve_order_book():
         if book['type'] == 'used':
             book_payload['condition'] = book['condition']
 
-        LOG.info('PAYLOAD\n{}'.format(book_payload))
-
         r = requests.put('{}/book/{}'.format(API_PATH, book_name), json=book_payload)
         LOG.info(r.json())
 
         order_payload = {
+            'book_id': book['_id']['$oid'],
             'order_quantity': order_quantity,
             'customer_name': customer_name,
             'customer_address': customer_address
         }
 
-        r = requests.put('{}/order/{}'.format(API_PATH, book['_id']['$oid']), json=order_payload)
+        r = requests.put('{}/order/{}'.format(API_PATH, book_name), json=order_payload)
         LOG.info(r.json())
 
         return render_template('/customer.html', status='Order placed successfully ...')
@@ -55,3 +54,21 @@ def serve_order_book():
     LOG.info(book)
 
     return render_template('/place_order.html', book=json.loads(book['book']))
+
+@app.route('/delete_order', methods=['GET'])
+def serve_delete_order():
+    LOG.info('serve_delete_order(GET)')
+
+    order_id = request.args.get('oid')
+    book_id = request.args.get('bid')
+    book_name = request.args.get('bname')
+
+    payload = {
+        'order_id': order_id,
+        'book_id': book_id
+    }
+
+    r = requests.delete('{}/order/{}'.format(API_PATH, book_name), json=payload).json()
+    LOG.info(r)
+
+    return redirect('/list_orders')

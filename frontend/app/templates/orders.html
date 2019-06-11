@@ -20,6 +20,11 @@
     Customer Address: {{ order['customer_address'] }}
     <br>
     <br>
+    <a href="/delete_order?oid={{ order['_id']['$oid'] }}&bid={{ order['book_id'] }}&bname={{ order['book_name'] }}">
+      Delete
+    </a>
+    <br>
+    <br>
   </li>
   {% endfor %}
 </ol>

@@ -87,7 +87,7 @@ api.add_resource(book.BookList, '/books')
 api.add_resource(book.BookTypeList, '/books_type/<string:book_type>')
 api.add_resource(book.BookGenreList, '/books_genre/<string:book_genre>')
 api.add_resource(book.Book, '/book/<string:book_name>')
-api.add_resource(order.Order, '/order/<string:book_id>')
+api.add_resource(order.Order, '/order/<string:book_name>')
 api.add_resource(order.OrderList, '/orders')
 api.add_resource(test.Test, '/')
 
