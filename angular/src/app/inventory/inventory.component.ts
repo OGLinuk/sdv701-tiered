@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
-import { Book } from '../book';
+import { Book } from '../book.model';
 
 @Component({
   selector: 'app-inventory',
@@ -15,12 +15,11 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit() {
     this.getBooks();
-    console.log(this.books);
   }
-
+  
   getBooks(): void {
     this.apiService.Get<Book[]>("/books")
-      .subscribe(data => this.books = data);
+      .subscribe(data => this.books = JSON.parse(data['books']));
   }
-
+  
 }

@@ -1,3 +1,25 @@
 <div style="text-align: center">
-  {{ books.books }}
+  <ol>
+    <li *ngFor="let book of books">
+      <span>Book ID: {{ book._id.$oid | json }}</span>
+      <br>
+      <span>Book Name: {{ book.name | json }}</span>
+      <br>
+      <span>Book Description: {{ book.description | json }}</span>
+      <br>
+      <span>Book Genre: {{ book.genre | json }}</span>
+      <br>
+      <span>Book Price: {{ book.price | json }}</span>
+      <br>
+      <span>In Stock: {{ book.in_stock | json }}</span>
+      <br>
+      <span>Last Modified: {{ book.last_modified | json }}</span>
+      <br>
+      <span>Book Type: {{ book.type | json }}</span>
+      <br>
+      <span *ngIf="book.condition">Book Condition: {{ book.condition | json }}</span>
+      <br>
+      <br>
+    </li>
+  </ol>
 </div>

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Book } from './book';
+import { tap, catchError } from 'rxjs/operators';
+import { Book } from './book.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +20,15 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+
   Get<T>(path: string): Observable<T> {
     return this.http.get<T>(`${this.API_PATH}${path}`, this.httpOptions)
       .pipe(
+        tap(data => console.log('DATA' + (data))),
         catchError(this.handleError<T>('Get'))
       )
   }
-
+ 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
  
