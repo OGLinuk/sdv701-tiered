@@ -1,4 +1,5 @@
 <div style="text-align: center">
+  <a routerLink="/add">Add Book</a>
   <ol>
     <li *ngFor="let book of books">
       <span>Book ID: {{ book._id.$oid | json }}</span>

@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { CustomerComponent } from './customer/customer.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { AddBookComponent } from './add-book/add-book.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     CustomerComponent,
-    InventoryComponent
+    InventoryComponent,
+    AddBookComponent
   ],
   imports: [
     AppRoutingModule,

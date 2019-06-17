@@ -24,8 +24,16 @@ export class ApiService {
   Get<T>(path: string): Observable<T> {
     return this.http.get<T>(`${this.API_PATH}${path}`, this.httpOptions)
       .pipe(
-        tap(data => console.log('DATA' + (data))),
+        tap(data => console.log('GET_DATA' + (data))),
         catchError(this.handleError<T>('Get'))
+      )
+  }
+
+  Put<T>(path: string, data: T): Observable<T> {
+    return this.http.put<T>(`${this.API_PATH}${path}`, data, this.httpOptions)
+      .pipe(
+        tap(data => console.log('PUT_DATA' + (data))),
+        catchError(this.handleError<T>('Put'))
       )
   }
  
