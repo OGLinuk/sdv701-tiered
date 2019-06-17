@@ -1,9 +1,9 @@
 version: '3.7'
 services:
-  web:
-    hostname: frontend
-    container_name: tiered-sdv701-frontend
-    build: ./frontend
+  flaskend:
+    hostname: flask-frontend
+    container_name: tiered-flaskend
+    build: ./flaskend
     depends_on:
       - api
     ports:
@@ -11,31 +11,44 @@ services:
     volumes:
       - .:/usr/src/application
     environment:
-      - ENV=development
       - WEB_HOST=0.0.0.0
       - WEB_PORT=9123
     networks:
       - tiered
-  api:
-    hostname: backend
-    container_name: tiered-sdv701-backend
-    build: ./backend
+  djangoend:
+    hostname: django-frontend
+    container_name: tiered-djangoend
+    build: ./djangoend
     depends_on:
-      - mongodb
+      - api
     ports:
       - 9124:9124
     volumes:
       - .:/usr/src/application
     environment:
-      - ENV=development
+      - WEB_HOST=0.0.0.0
+      - WEB_PORT=9124
+    networks:
+      - tiered
+  api:
+    hostname: backend
+    container_name: tiered-backend
+    build: ./backend
+    depends_on:
+      - mongodb
+    ports:
+      - 9125:9125
+    volumes:
+      - .:/usr/src/application
+    environment:
       - API_HOST=0.0.0.0
-      - API_PORT=9124
+      - API_PORT=9125
       - DB=mongodb://mongodb:27017/tieredapp
     networks:
       - tiered
   mongodb:
     hostname: database
-    container_name: tiered-sdv701-database
+    container_name: tiered-database
     image: mongo:latest
     ports:
       - 27017:27017
