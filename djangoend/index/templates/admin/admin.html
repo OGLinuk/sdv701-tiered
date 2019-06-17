@@ -1,5 +1,28 @@
 {% extends "skeleton.html" %}
 {% block title %}Admin{% endblock %}
 {% block body %}
-<h1>Admin Page</h1>
+<h1>Admin</h1>
+<br>
+<br>
+{% if error %}
+    <h3>ERROR: {{ error }}</h3>
+    <br>
+    <br>
+{% endif %}
+<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-4">
+        <h3><a href="{% url 'list_inventory' %}">Inventory</a></h3>
+    </div>
+    <div class="col-md-4">
+        <h3><a href="{% url 'list_orders' %}">Orders</a></h3>
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>  
 {% endblock %}
