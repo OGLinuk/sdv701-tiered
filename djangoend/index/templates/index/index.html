@@ -1,7 +1,23 @@
 {% extends "skeleton.html" %}
-
 {% block title %}Index{% endblock %}
-
 {% block body %}
-<h1>Index Page</h1>
+<h1>We Do Books</h1>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-4">
+        <h3><a href="{% url 'admin' %}">Admin</a></h3>
+    </div>
+    <div class="col-md-4">
+        <h3><a href="{% url 'customer' %}">Customer</a></h3>
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>
 {% endblock %}
