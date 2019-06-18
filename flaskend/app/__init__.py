@@ -4,7 +4,7 @@ from utils.logger import Logger
 import os
 
 # Logger instantiation
-lumbrjak = Logger(__name__, filename='app.log')
+lumbrjak = Logger(__name__, filename='flaskend.log')
 test_lumbrjak = Logger('test', 'test.log')
 
 LOG = lumbrjak.get_logger()

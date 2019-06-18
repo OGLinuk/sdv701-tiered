@@ -3,7 +3,7 @@ from flask import render_template, redirect
 import requests
 import json
 
-API_PATH = 'http://tiered-sdv701-backend:9124'
+API_PATH = 'http://tiered-backend:9125'
 
 @app.route('/admin', methods=['GET'])
 def serve_admin():

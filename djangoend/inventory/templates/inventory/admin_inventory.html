@@ -2,4 +2,39 @@
 {% block title %}Inventory{% endblock %}
 {% block body %}
 <h1>Inventory</h1>
+{% if error %}
+ERROR:&nbsp;{{ error }}
+{% endif %}
+<br>
+<br>
+<h3>All Books</h3>
+<hr>
+<ol>
+    {% for book in books %}
+    <li>
+        Book Name: {{ book.name }}
+        <br>
+        Book ID: {{ book.id }}
+        <br>
+        Book Description: {{ book.description }}
+        <br>
+        Book Genre: {{ book.genre }}
+        <br>
+        Book Price: {{ book.price }}
+        <br>
+        In Stock: {{ book.in_stock }}
+        <br>
+        Last Modified: {{ book.last_modified }}
+        <br>
+        Book Type: {{ book.type }}
+        <br>
+        {% if book.condition %}
+        Book Condition: {{ book.condition }}
+        <br>
+        {% endif %}
+    </li>
+    <br>
+    <br>
+    {% endfor %}
+</ol>
 {% endblock %}
