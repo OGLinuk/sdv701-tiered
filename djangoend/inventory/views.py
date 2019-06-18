@@ -11,7 +11,7 @@ def list_inventory(request):
     settings.LOG.info(book_list)
 
     if book_list['response'] == 'error':
-        return render(request, 'inventory/admin_inventory.html', error='No inventory list found')
+        return render(request, 'inventory/admin_inventory.html', {'error': 'No inventory list found'})
 
     bl = json.loads(book_list['books'])
 
@@ -84,3 +84,11 @@ def edit_book(request):
     settings.LOG.info(book)
 
     return render(request, 'inventory/edit_book.html', {'book': json.loads(book['book'])})
+
+def delete_book(request):
+    book_name = request.GET.get('name')
+
+    r = requests.delete('{}/book/{}'.format(API_PATH, book_name)).json()
+    settings.LOG.info(r)
+
+    return redirect('list_inventory')
