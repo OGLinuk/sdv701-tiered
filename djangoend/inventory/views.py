@@ -13,12 +13,47 @@ def list_inventory(request):
     if book_list['response'] == 'error':
         return render(request, 'inventory/admin_inventory.html', {'error': 'No inventory list found'})
 
-    bl = json.loads(book_list['books'])
+    book_list = json.loads(book_list['books'])
 
-    for b in bl:
+    for b in book_list:
         b['id'] = b['_id']['$oid']
 
-    return render(request, 'inventory/admin_inventory.html', {'books': bl})
+    return render(request, 'inventory/admin_inventory.html', {'books': book_list})
+
+def search_inventory(request):
+    if request.method == 'POST':
+        form_data = request.POST.dict()
+
+        by_genre = form_data.get('search_by_genre')
+        by_type = form_data.get('search_by_type')
+
+        settings.LOG.info('{}\n{}'.format(by_genre, by_type))
+
+        if by_genre != 'none':
+            book_list = requests.get('{}/books_genre/{}'.format(API_PATH, by_genre)).json()
+            settings.LOG.info(book_list)
+
+            if book_list['response'] == 'error':
+                return render(request, 'customer/customer.html', {'error': 'No inventory list found by genre'})
+
+        if by_type != 'none':
+            book_list = requests.get('{}/books_type/{}'.format(API_PATH, by_type)).json()
+            settings.LOG.info(book_list)
+
+            if book_list['response'] == 'error':
+                return render('customer/customer.html', {'error': 'No inventory list found by type'})
+
+        if by_genre == 'none' and by_type == 'none':
+            return render(request, 'customer/customer.html', {'status': 'Please select search by option ...'})
+        
+        book_list = json.loads(book_list['books'])
+
+        for b in book_list:
+            b['id'] = b['_id']['$oid']  
+
+        return render(request, 'inventory/customer_inventory.html', {'books': book_list})
+
+    return render(request, 'inventory/customer_inventory.html')
 
 def add_book(request):
     if request.method == 'POST':
