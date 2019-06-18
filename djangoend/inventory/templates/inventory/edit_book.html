@@ -1,43 +1,49 @@
 {% extends 'skeleton.html' %}
 {% load static %}
-{% block title %}Add{% endblock %}
+{% block title %}Edit{% endblock %}
 {% block body %}
-<h1>Add Book</h1>
+<h1>Edit Book: {{ book.name }}</h1>
 <br>
 <br>
-<form method="POST" action="{% url 'add_book' %}">
+<form method="POST" action="{% url 'edit_book' %}">
   {% csrf_token %}
+  <input type="hidden" name="old_book_name" value="{{ book.name }}">
   Book name:
   <br>
-  <input type="text" name="book_name" value="What is man">
+  <input type="text" name="book_name" value="{{ book.name }}">
   <br>
   <br>
   Book description:
   <br>
-  <input type="text" name="book_description" value="A book about mankind">
+  <input type="text" name="book_description" value="{{ book.description }}">
   <br>
   <br>
   Book genre:&nbsp;
   <select name="book_genre">
     <option value="0">Fiction</option>
     <option value="1">Non-fiction</option>
-  </select>  
+  </select>
   <br>
   <br>
   Book price:
   <br>
-  <input type="number" min="1" step="0.01" name="book_price" value="10">
+  <input type="number" min="1" step="0.01" name="book_price" value="{{ book.price }}">
   <br>
   <br>
   Quantity:
   <br>
-  <input type="number" min="1" step="1" name="in_stock" value="1">
+  <input type="number" min="1" step="1" name="in_stock" value="{{ book.in_stock }}">
   <br>
   <br>
   Book condition:
   <br>
+  {% if book.condition %}
+  <input type="radio" name="book_type" value="new"> New<br>
+  <input type="radio" name="book_type" value="used" checked> Used<br>
+  {% else %}
   <input type="radio" name="book_type" value="new" checked> New<br>
   <input type="radio" name="book_type" value="used"> Used<br>
+  {% endif %}
   <br>
   <div class="used-book-conditions">
     Condition:&nbsp;
