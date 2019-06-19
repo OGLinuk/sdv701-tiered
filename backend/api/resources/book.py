@@ -25,18 +25,14 @@ class Book(Resource):
 
         # TODO: Need to fix bug where condition remains when changing from used to new type 
         # Editing book
-        if args['edit']:
+        if args['edit'] == True:
 
-            genre = args['genre']
-            if isinstance(genre, int):
-                genre = books.Genre(genre).name
+            genre = books.Genre(int(args['genre'])).name
 
             # Used book
             if args['type'] == 'used':
 
-                condition = args['condition']
-                if isinstance(condition, int):
-                    condition = books.Condition(args['condition']).name
+                condition = books.Condition(int(args['condition'])).name
 
                 book = books_collection.find_one_and_update(
                     {'name': book_name},
