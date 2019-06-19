@@ -41,7 +41,7 @@ def search_inventory(request):
             settings.LOG.info(book_list)
 
             if book_list['response'] == 'error':
-                return render('customer/customer.html', {'error': 'No inventory list found by type'})
+                return render(request, 'customer/customer.html', {'error': 'No inventory list found by type'})
 
         if by_genre == 'none' and by_type == 'none':
             return render(request, 'customer/customer.html', {'status': 'Please select search by option ...'})
@@ -121,7 +121,7 @@ def edit_book(request):
     return render(request, 'inventory/edit_book.html', {'book': json.loads(book['book'])})
 
 def delete_book(request):
-    book_name = request.GET.get('name')
+    book_name = request.POST.get('name')
 
     r = requests.delete('{}/book/{}'.format(API_PATH, book_name)).json()
     settings.LOG.info(r)

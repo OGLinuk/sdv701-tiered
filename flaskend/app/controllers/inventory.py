@@ -5,31 +5,6 @@ import json
 
 API_PATH = 'http://tiered-backend:9125'
 
-@app.route('/new_books', methods=['GET'])
-def serve_new_books():
-    LOG.info('serve_new_books(GET)')
-
-    book_list = requests.get('{}/books_type/new'.format(API_PATH)).json()
-    LOG.info(book_list)
-
-    if book_list['response'] == 'error':
-        return render_template('/admin.html', error='No inventory list found')
-
-    return render_template('/new_books.html', books=json.loads(book_list['books']))
-
-@app.route('/used_books', methods=['GET'])
-def serve_used_books():
-    LOG.info('serve_used_books(GET)')
-
-    book_list = requests.get('{}/books_type/used'.format(API_PATH)).json()
-    LOG.info(book_list)
-
-    if book_list['response'] == 'error':
-        return render_template('/admin.html', error='No inventory list found')
-
-    return render_template('/used_books.html', books=json.loads(book_list['books']))
-
-
 @app.route('/add_book', methods=['GET', 'POST'])
 def serve_add_book():
     if request.method == 'POST':
@@ -100,13 +75,14 @@ def serve_edit_book():
 
     return render_template('/edit_book.html', book=json.loads(book['book']))
 
-@app.route('/delete_book', methods=['GET'])
+@app.route('/delete_book', methods=['POST'])
 def serve_delete_book():
-    LOG.info('serve_delete_book(GET)')
+    if request.method == 'POST':
+        LOG.info('serve_delete_book(POST)')
 
-    book_name = request.args.get('name')
+        book_name = request.values.get('name')
 
-    r = requests.delete('{}/book/{}'.format(API_PATH, book_name)).json()
-    LOG.info(r)
+        r = requests.delete('{}/book/{}'.format(API_PATH, book_name)).json()
+        LOG.info(r)
 
-    return redirect('/list_inventory')
+        return redirect('/list_inventory')

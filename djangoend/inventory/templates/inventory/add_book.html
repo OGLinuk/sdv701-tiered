@@ -5,7 +5,7 @@
 <h1>Add Book</h1>
 <br>
 <br>
-<form method="POST" action="{% url 'add_book' %}">
+<form id="confirmForm" method="POST" action="{% url 'add_book' %}">
   {% csrf_token %}
   Book name:
   <br>
@@ -48,7 +48,8 @@
     </select>
   </div>
   <br>
-  <input type="submit" value="Submit">
+  <input id="confirm" type="button" value="Submit" onclick="ask();">
 </form>
+<script src="{% static 'js/confirm.js' %}"></script>
 <script src="{% static 'js/used_book.js' %}"></script>
 {% endblock %}

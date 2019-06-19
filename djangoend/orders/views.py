@@ -67,9 +67,11 @@ def order_book(request):
     return render(request, 'orders/place_order.html', {'book': json.loads(book['book'])})
 
 def delete_order(request):
-    order_id = request.GET.get('oid')
-    book_id = request.GET.get('bid')
-    book_name = request.GET.get('bname')
+    order_id = request.POST.get('oid')
+    book_id = request.POST.get('bid')
+    book_name = request.POST.get('bname')
+
+    settings.LOG.info('{} {} {}'.format(order_id, book_id, book_name))
 
     payload = {
         'order_id': order_id,

@@ -55,20 +55,21 @@ def serve_order_book():
 
     return render_template('/place_order.html', book=json.loads(book['book']))
 
-@app.route('/delete_order', methods=['GET'])
+@app.route('/delete_order', methods=['POST'])
 def serve_delete_order():
-    LOG.info('serve_delete_order(GET)')
+    if request.method == 'POST':
+        LOG.info('serve_delete_order(POST)')
 
-    order_id = request.args.get('oid')
-    book_id = request.args.get('bid')
-    book_name = request.args.get('bname')
+        order_id = request.values.get('oid')
+        book_id = request.values.get('bid')
+        book_name = request.values.get('bname')
 
-    payload = {
-        'order_id': order_id,
-        'book_id': book_id
-    }
+        payload = {
+            'order_id': order_id,
+            'book_id': book_id
+        }
 
-    r = requests.delete('{}/order/{}'.format(API_PATH, book_name), json=payload).json()
-    LOG.info(r)
+        r = requests.delete('{}/order/{}'.format(API_PATH, book_name), json=payload).json()
+        LOG.info(r)
 
-    return redirect('/list_orders')
+        return redirect('/list_orders')

@@ -9,24 +9,6 @@ ERROR:&nbsp;{{ error }}
 <br>
 <h3><a href="/add_book">Add Book</a></h3>
 <br>
-<div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-4">
-        <h3><a href="/new_books">New Books</a></h3>
-    </div>
-    <div class="col-md-4">
-        <h3><a href="/used_books">Used Books</a></h3>
-    </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-1">
-    </div>
-</div>
-<br>
-<br>
 <h3>All Books</h3>
 <hr>
 <ol>
@@ -65,10 +47,13 @@ ERROR:&nbsp;{{ error }}
             <div class="col-md-1">
             </div>
             <div class="col-md-1">
-                <a href="/edit_book?name={{ book['name'] }}">Edit</a>
+                <button><a href="/edit_book?name={{ book['name'] }}">Edit</a></button>
             </div>
             <div class="col-md-1">
-                <a href="/delete_book?name={{ book['name'] }}">Delete</a>
+                <form id="confirmForm" method="POST" action="{{ url_for('serve_delete_book') }}">
+                    <input type="hidden" name="name" value="{{ book['name'] }}">
+                    <input id="confirm" type="button" value="Delete" onclick="ask();">
+                </form>
             </div>
             <div class="col-md-1">
             </div>
@@ -87,4 +72,5 @@ ERROR:&nbsp;{{ error }}
     <br>
     {% endfor %}
 </ol>
+<script src="/static/js/confirm.js"></script> <br>
 {% endblock %}

@@ -24,14 +24,14 @@ def serve_search_inventory():
             LOG.info(book_list)
 
             if book_list['response'] == 'error':
-                return render_template('/customer_inventory.html', error='No inventory list found')
+                return redirect('/customer', error='No inventory list found')
 
         if by_type != 'none':
             book_list = requests.get('{}/books_type/{}'.format(API_PATH, by_type)).json()
             LOG.info(book_list)
 
             if book_list['response'] == 'error':
-                return render_template('/customer_inventory.html', error='No inventory list found')
+                return redirect('/customer', error='No inventory list found')
 
         if by_genre == 'none' and by_type == 'none':
             return redirect('/customer', status='Please select search by option ...')

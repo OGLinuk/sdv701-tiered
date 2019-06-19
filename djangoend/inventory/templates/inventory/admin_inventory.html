@@ -1,4 +1,5 @@
 {% extends 'skeleton.html' %}
+{% load static %}
 {% block title %}Inventory{% endblock %}
 {% block body %}
 <h1>Inventory</h1>
@@ -8,7 +9,6 @@ ERROR:&nbsp;{{ error }}
 <br>
 <br>
 <h3><a href="{% url 'add_book' %}">Add Book</a></h3>
-<br>
 <br>
 <h3>All Books</h3>
 <hr>
@@ -48,10 +48,14 @@ ERROR:&nbsp;{{ error }}
             <div class="col-md-1">
             </div>
             <div class="col-md-1">
-                <a href="/edit_book?name={{ book.name }}">Edit</a>
+                <button><a href="/edit_book?name={{ book.name }}">Edit</a></button>
             </div>
             <div class="col-md-1">
-                <a href="/delete_book?name={{ book.name }}">Delete</a>
+                <form id="confirmForm" method="POST" action="{% url 'delete_book' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="name" value="{{ book.name }}">
+                    <input id="confirm" type="button" value="Delete" onclick="ask();">
+                </form>
             </div>
             <div class="col-md-1">
             </div>
@@ -70,4 +74,5 @@ ERROR:&nbsp;{{ error }}
     <br>
     {% endfor %}
 </ol>
+<script src="{% static 'js/confirm.js' %}"></script>
 {% endblock %}

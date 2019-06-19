@@ -5,15 +5,20 @@
 <br>
 <br>
 {% if status %}
-    <h3>STATUS: {{ status }}</h3>
-    <br>
-    <br>
+<h3>STATUS: {{ status }}</h3>
+<br>
+<br>
+{% endif %}
+{% if error %}
+<h3>ERROR: {{ error }}</h3>
+<br>
+<br>
 {% endif %}
 <input type="radio" name="book_type" value="genre" checked> Genre &nbsp;&nbsp;&nbsp;
 <input type="radio" name="book_type" value="type"> Type
 <br>
 <br>
-<form method="POST" action="{{ url_for('serve_search_inventory') }}">
+<form id="confirmForm" method="POST" action="{{ url_for('serve_search_inventory') }}">
     <div class="search_by_genre">
         Search by Genre:&nbsp;
         <select name="search_by_genre">
@@ -34,7 +39,8 @@
         <br>
         <br>
     </div>
-    <input type="submit" value="Submit">
+    <input id="confirm" type="button" value="Submit" onclick="ask();">
 </form>
+<script src="/static/js/confirm.js"></script>
 <script src="/static/js/search_by.js"></script>
 {% endblock %}

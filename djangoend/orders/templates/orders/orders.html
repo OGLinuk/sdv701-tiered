@@ -1,4 +1,5 @@
 {% extends 'skeleton.html' %}
+{% load static %}
 {% block title %}Orders{% endblock %}
 {% block body %}
 <h1>Orders</h1>
@@ -20,12 +21,16 @@
     Customer Address: {{ order.customer_address }}
     <br>
     <br>
-    <a href="/delete_order?oid={{ order.id }}&bid={{ order.book_id }}&bname={{ order.book_name }}">
-      Delete
-    </a>
-    <br>
+    <form id="confirmForm" method="POST" action="{% url 'delete_order' %}">
+      {% csrf_token %}
+      <input type="hidden" name="oid" value="{{ order.id }}">
+      <input type="hidden" name="bid" value="{{ order.book_id }}">
+      <input type="hidden" name="bname" value="{{ order.book_name }}">
+      <input id="confirm" type="button" value="Delete" onclick="ask();">
+    </form>
     <br>
   </li>
   {% endfor %}
 </ol>
+<script src="{% static 'js/confirm.js' %}"></script>
 {% endblock %}

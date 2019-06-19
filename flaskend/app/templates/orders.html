@@ -12,7 +12,7 @@
     Product Name: {{ order['book_name'] }}
     <br>
     Order Price: {{ order['order_price'] }}
-    <br> 
+    <br>
     Order Quantity: {{ order['order_quantity'] }}
     <br>
     Customer: {{ order['customer_name'] }}
@@ -20,12 +20,15 @@
     Customer Address: {{ order['customer_address'] }}
     <br>
     <br>
-    <a href="/delete_order?oid={{ order['_id']['$oid'] }}&bid={{ order['book_id'] }}&bname={{ order['book_name'] }}">
-      Delete
-    </a>
-    <br>
+    <form id="confirmForm" method="POST" action="{{ url_for('serve_delete_order') }}">
+      <input type="hidden" name="oid" value="{{ order['_id']['$oid'] }}">
+      <input type="hidden" name="bid" value="{{ order['book_id'] }}">
+      <input type="hidden" name="bname" value="{{ order['book_name'] }}">
+      <input id="confirm" type="button" value="Delete" onclick="ask();">
+    </form>
     <br>
   </li>
   {% endfor %}
 </ol>
+<script src="/static/js/confirm.js"></script>
 {% endblock %}

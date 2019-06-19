@@ -11,7 +11,7 @@ Book Price: {{ book['price'] }}
 In Stock: {{ book['in_stock'] }}
 <br>
 <br>
-<form method="POST" action="{{ url_for('serve_order_book') }}">
+<form id="confirmForm" method="POST" action="{{ url_for('serve_order_book') }}">
     <input type="hidden" name="name" value="{{ book['name'] }}">
     Order Quantity:&nbsp;&nbsp;&nbsp;
     <input type="number" name="quantity" step="1" min="1" max="{{ book['in_stock'] }}" value="1">
@@ -25,6 +25,7 @@ In Stock: {{ book['in_stock'] }}
     <input type="text" name="customer_address" value="123 Timbucktoo Lane">
     <br>
     <br>
-    <input type="submit" value="Submit">
+    <input id="confirm" type="button" value="Submit" onclick="ask();">
 </form>
+<script src="/static/js/confirm.js"></script>
 {% endblock %}
